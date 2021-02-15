@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+        <meta name="renderer" content="webkit" />
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <style>
+            *{padding:0;margin:0;box-sizing: border-box;}
+            a{text-decoration: none;}
+            .container{width:35%;margin:0 auto}
+            .cart{display:flex;flex-direction: column;}
+            .title{text-align: center;background:rgb(149, 177, 229)}
+            .list{float:left}
+            .item{display:flex}
+            .item{width:100%}
+            .clear::after{content:'';height:0;overflow: hidden;clear:both}
+            .item img{width:8%}
+            .name{width:50%}
+            .num{width:10%}
+            .del{width:5%;height:30px;background:url('./img/fork.png');background-size:cover}
+            .total{text-align: center;background:chocolate}
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div class="container">
+                <my-cart></my-cart>
+            </div>
+        </div>
+    </body>
+    <script>
+        var CartTitle={
+            props:['uname'],
+            template:`
+                <div class="title">{{uname}}的商品</div>
+            `
+        }
+        var CartList={
+            template:`
+                <div class="list clear">
+                    <div class="item clear">
+                        <img src="./img/haier.png" alt="">
+                        <div class="name"></div>
+                        <div class="change">
+                            <a href="">-</a>
+                            <input type="text" class="num">
+                            <a href="">+</a>
+                        </div>
+                        <div class="del"></div>
+                    </div>
+                    <div class="item clear">
+                        <img src="./img/lejia.png" alt="">
+                        <div class="name"></div>
+                        <div class="change">
+                            <a href="">-</a>
+                            <input type="text" class="num">
+                            <a href="">+</a>
+                        </div>
+                        <div class="del"></div>
+                    </div>
+                    <div class="item clear">
+                        <img src="./img/meidi.png" alt="">
+                        <div class="name"></div>
+                        <div class="change">
+                            <a href="">-</a>
+                            <input type="text" class="num">
+                            <a href="">+</a>
+                        </div>
+                        <div class="del"></div>
+                    </div>
+                    <div class="item clear">
+                        <img src="./img/shengfa.png" alt="">
+                        <div class="name"></div>
+                        <div class="change">
+                            <a href="">-</a>
+                            <input type="text" class="num">
+                            <a href="">+</a>
+                        </div>
+                        <div class="del"></div>
+                    </div>
+                    <div class="item clear">
+                        <img src="./img/tcl.png" alt="">
+                        <div class="name"></div>
+                        <div class="change">
+                            <a href="">-</a>
+                            <input type="text" class="num">
+                            <a href="">+</a>
+                        </div>
+                        <div class="del"></div>
+                    </div>
+                </div>
+            `
+        }
+        var CartTotal={
+            template:`
+                <div class="total">
+                    <span>总价：123</span>
+                    <button>结算</button>
+                </div>
+            `
+        }
+
+        Vue.component('my-cart',{
+            data:function(){
+                return{
+                    uname:'张三'
+                }
+            },
+            template:`
+                <div class="cart">
+                    <cart-title :uname="uname"></cart-title>
+                    <cart-list></cart-list>
+                    <cart-total></cart-total>
+                </div>
+            `,
+            components:{
+                'cart-title':CartTitle,
+                'cart-list':CartList,
+                'cart-total':CartTotal
+            }
+        })
+        var vm=new Vue({
+            el:'#app',
+            data:{}
+        })
+    </script>
+</html>
