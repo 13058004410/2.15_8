@@ -16,13 +16,14 @@
             .cart{display:flex;flex-direction: column;}
             .title{text-align: center;background:rgb(149, 177, 229)}
             .list{float:left}
-            .item{display:flex}
-            .item{width:100%}
+            .item{display:flex;height:70px;width:100%;padding:10px 0}
             .clear::after{content:'';height:0;overflow: hidden;clear:both}
-            .item img{width:8%}
-            .name{width:50%}
-            .num{width:10%}
-            .del{width:5%;height:30px;background:url('./img/fork.png');background-size:cover}
+            .item img{width:25%}
+            .change{width:30%;padding-top:10px}
+            .change a{background:#ccc;}
+            .name{width:30%;height:100%;line-height:50px;text-align: center;}
+            .num{width:20%}
+            .del{width:10%;height:30px;background:url('./img/fork.png');background-size:cover}
             .total{text-align: center;background:chocolate}
         </style>
     </head>
@@ -41,87 +42,114 @@
             `
         }
         var CartList={
+            props:['list'],
             template:`
                 <div class="list clear">
-                    <div class="item clear">
-                        <img src="./img/haier.png" alt="">
-                        <div class="name"></div>
+                    <div :key="index" v-for="(item,index) in list" class="item clear">
+                        <img :src="item.img" alt="">
+                        <div class="name">{{item.name}}</div>
                         <div class="change">
                             <a href="">-</a>
                             <input type="text" class="num">
                             <a href="">+</a>
                         </div>
-                        <div class="del"></div>
+                        <div class="del" @click="del(item.id)"></div>
                     </div>
-                    <div class="item clear">
-                        <img src="./img/lejia.png" alt="">
-                        <div class="name"></div>
-                        <div class="change">
-                            <a href="">-</a>
-                            <input type="text" class="num">
-                            <a href="">+</a>
-                        </div>
-                        <div class="del"></div>
-                    </div>
-                    <div class="item clear">
-                        <img src="./img/meidi.png" alt="">
-                        <div class="name"></div>
-                        <div class="change">
-                            <a href="">-</a>
-                            <input type="text" class="num">
-                            <a href="">+</a>
-                        </div>
-                        <div class="del"></div>
-                    </div>
-                    <div class="item clear">
-                        <img src="./img/shengfa.png" alt="">
-                        <div class="name"></div>
-                        <div class="change">
-                            <a href="">-</a>
-                            <input type="text" class="num">
-                            <a href="">+</a>
-                        </div>
-                        <div class="del"></div>
-                    </div>
-                    <div class="item clear">
-                        <img src="./img/tcl.png" alt="">
-                        <div class="name"></div>
-                        <div class="change">
-                            <a href="">-</a>
-                            <input type="text" class="num">
-                            <a href="">+</a>
-                        </div>
-                        <div class="del"></div>
-                    </div>
+                    
                 </div>
-            `
+            `,
+            methods:{
+                del:function(id){
+                    //把ID传递给父组件
+                    this.$emit('cart-del',id)
+                }
+            }
         }
         var CartTotal={
+            props:['list'],
             template:`
                 <div class="total">
-                    <span>总价：123</span>
+                    <span>总价：{{total}}</span>
                     <button>结算</button>
                 </div>
-            `
+            `,
+            computed:{
+                total:function(){
+                    //计算商品的总价
+                    var t=0;
+                    this.list.forEach(item=>{
+                        t+=item.price*item.num;
+                    })
+                    return t;
+                }
+            }
         }
 
         Vue.component('my-cart',{
             data:function(){
                 return{
-                    uname:'张三'
+                    uname:'张三',
+                    list:[
+                        {
+                            id:1,
+                            name:'海尔',
+                            price:1000,
+                            num:1,
+                            img:'./img/haier.png'
+                        },
+                        {
+                            id:2,
+                            name:'乐家',
+                            price:800,
+                            num:1,
+                            img:'./img/lejia.png'
+                        },
+                        {
+                            id:3,
+                            name:'美的',
+                            price:600,
+                            num:1,
+                            img:'./img/meidi.png'
+                        },
+                        {
+                            id:4,
+                            name:'盛发',
+                            price:1200,
+                            num:1,
+                            img:'./img/shengfa.png'
+                        },
+                        {
+                            id:5,
+                            name:'TCL',
+                            price:900,
+                            num:1,
+                            img:'./img/tcl.png'
+                        }
+                    ]
                 }
             },
             template:`
                 <div class="cart">
                     <cart-title :uname="uname"></cart-title>
-                    <cart-list></cart-list>
-                    <cart-total></cart-total>
+                    <cart-list @cart-del="delCart($event)" :list="list"></cart-list>
+                    <cart-total :list="list"></cart-total>
                 </div>
             `,
             components:{
                 'cart-title':CartTitle,
                 'cart-list':CartList,
                 'cart-total':CartTotal
+            },
+            methods:{
+                delCart:function(id){
+                    //根据id删除list中对应的数据
+                    //1.找到id所对应的索引
+                    var index=this.list.findIndex(item=>{
+                        return item.id==id
+                    })
+                    //2.根据索引删除数据
+                    this.list.splice(index,1)
+                }
             }
         })
         var vm=new Vue({

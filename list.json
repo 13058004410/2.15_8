@@ -1,0 +1,32 @@
+list=[
+    {
+        id:1,
+        name:'海尔',
+        num:1,
+        img:'./img/haier.png'
+    },
+    {
+        id:2,
+        name:'乐家',
+        num:1,
+        img:'./img/lejia.png'
+    },
+    {
+        id:3,
+        name:'美的',
+        num:1,
+        img:'./img/meidi.png'
+    },
+    {
+        id:4,
+        name:'盛发',
+        num:1,
+        img:'./img/shengfa.png'
+    },
+    {
+        id:5,
+        name:'TCL',
+        num:1,
+        img:'./img/tcl.png'
+    },
+]
