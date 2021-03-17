@@ -35,13 +35,13 @@
         </div>
     </body>
     <script>
-        var CartTitle={
+        var CartTitle={         //局部组件
             props:['uname'],
             template:`
                 <div class="title">{{uname}}的商品</div>
             `
         }
-        var CartList={
+        var CartList={      //局部组件
             props:['list'],
             template:`
                 <div class="list clear">
@@ -65,7 +65,7 @@
                 }
             }
         }
-        var CartTotal={
+        var CartTotal={     //局部组件
             props:['list'],
             template:`
                 <div class="total">
@@ -135,7 +135,7 @@
                     <cart-total :list="list"></cart-total>
                 </div>
             `,
-            components:{
+            components:{   //那三个局部组件
                 'cart-title':CartTitle,
                 'cart-list':CartList,
                 'cart-total':CartTotal
